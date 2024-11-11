@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ../pmapp-frontend           # Path to the frontend Dockerfile
+    ports:
+      - "3000:80"                   # Maps port 80 in the container to 3000 on the local machine
+    depends_on:
+      - backend                     # Ensures backend is started before frontend
+    env_file:
+      - ../pmapp-frontend/.env  # Path to frontend environment variables file
+
+  backend:
+    build:
+      context: ../pmapp            # Path to the backend Dockerfile
+    ports:
+      - "80:80"                   # Maps port 80 in the container to 5000 on the local machine
+    env_file:
+      - ../pmapp/.env  # Path to backend environment variables file
+
+networks:
+  default:
+    driver: bridge
