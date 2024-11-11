@@ -40,21 +40,21 @@ jobs:
             echo "SERVER_SSH_KEY is missing or empty."
             exit 1
           else
-            echo "SERVER_SSH_KEY is set."
+            echo "SERVER_SSH_KEY is set. ${{ secrets.SERVER_SSH_KEY }}"
           fi
 
           if [ -z "${{ secrets.SERVER_HOST }}" ]; then
             echo "SERVER_HOST is missing or empty."
             exit 1
           else
-            echo "SERVER_HOST is set."
+            echo "SERVER_HOST is set. ${{ secrets.SERVER_HOST }}"
           fi
 
           if [ -z "${{ secrets.SERVER_USER }}" ]; then
             echo "SERVER_USER is missing or empty."
             exit 1
           else
-            echo "SERVER_USER is set."
+            echo "SERVER_USER is set. ${{ secrets.SERVER_USER }}"
           fi
 
 
