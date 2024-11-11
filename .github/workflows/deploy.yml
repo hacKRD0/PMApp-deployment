@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -34,6 +34,29 @@ jobs:
       #     key: ${{ secrets.SERVER_SSH_KEY }}
       #     source: $GITHUB_WORKSPACE/pmapp/.env.backend
       #     target: ~/pmapp/.env.backend
+      - name: Verify Secrets Presence
+        run: |
+          if [ -z "${{ secrets.SERVER_SSH_KEY }}" ]; then
+            echo "SERVER_SSH_KEY is missing or empty."
+            exit 1
+          else
+            echo "SERVER_SSH_KEY is set."
+          fi
+
+          if [ -z "${{ secrets.SERVER_HOST }}" ]; then
+            echo "SERVER_HOST is missing or empty."
+            exit 1
+          else
+            echo "SERVER_HOST is set."
+          fi
+
+          if [ -z "${{ secrets.SERVER_USER }}" ]; then
+            echo "SERVER_USER is missing or empty."
+            exit 1
+          else
+            echo "SERVER_USER is set."
+          fi
+
 
       # Step 3: SSH into EC2 and deploy with Docker Compose
       - name: Deploy to EC2 via SSH
