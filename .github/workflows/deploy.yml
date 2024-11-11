@@ -20,7 +20,10 @@ jobs:
           node-version: 20.x
 
       - name: Generate environment variables file
-        run: node generate-vars.js "${{ secrets.ENV_VARIABLES_BACKEND }}"
+        run: |
+          mkdir -p ./pmapp  # Create the pmapp directory on runner
+          node generate-vars.js "${{ secrets.ENV_VARIABLES_BACKEND }}"
+        shell: bash
       
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.4
@@ -42,7 +45,7 @@ jobs:
 
           # Ensure pmapp directory exists
           mkdir -p ~/pmapp
-          
+
           # Log in to Docker
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
