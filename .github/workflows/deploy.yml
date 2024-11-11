@@ -23,6 +23,7 @@ jobs:
         run: |
           mkdir -p ./pmapp  # Create pmapp directory
           node generate-vars.mjs "${{ secrets.ENV_VARIABLES_BACKEND }}"  # This should create ./pmapp/.env.backend
+          ls -l $GITHUB_WORKSPACE/pmapp/.env.backend  # Verify the file was created
 
       # Step 2: Transfer .env.backend to EC2 instance
       - name: Transfer .env.backend to EC2
