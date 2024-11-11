@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Generate environment variables file
+        run: node generate-vars.js "${{ secrets.ENV_VARIABLES_PROD_PART_1 }}${{ secrets.ENV_VARIABLES_PROD_PART_2 }}"
+
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.4
         with:
@@ -27,7 +30,7 @@ jobs:
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
           # Navigate to directory where docker-compose.yml is located
-          cd /path/to/docker-compose
+          cd ~/pmapp
 
           # Pull latest images and run docker-compose
           docker-compose down       # Stop existing containers
