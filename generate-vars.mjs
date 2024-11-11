@@ -1,4 +1,4 @@
-import { appendFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 import path from 'path';
 
 // Retrieve command line arguments
@@ -13,11 +13,11 @@ if (myArgs.length < 1) {
 const buf = Buffer.from(myArgs[0], 'base64');
 
 // Define the output file path
-const outputFilePath = path.join(process.env.HOME, 'pmapp', '.env.backend');
+const outputFilePath = path.join(process.env.HOME, '.env.backend');
 
 try {
   // Write decoded data to the .env.backend file in ~/pmapp
-  appendFileSync(outputFilePath, buf.toString());
+  writeFileSync(outputFilePath, buf.toString());
   console.log(`Successfully wrote .env.backend to ${outputFilePath}`);
 } catch (error) {
   console.error(`Error writing to .env.backend: ${error.message}`);
