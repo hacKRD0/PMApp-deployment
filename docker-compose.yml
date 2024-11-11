@@ -8,16 +8,18 @@ services:
     depends_on:
       backend:
         condition: service_healthy    # Wait until backend passes the healthcheck
-    env_file:
-      - ./.env.frontend              # Path to frontend environment variables file
     restart: always
+    working_dir: /app
+    # env_file:
+    #   - .env.frontend              # Path to frontend environment variables file
 
   backend:
     image: krajavar/pmapp-backend
     ports:
       - "80:80"                       # Maps port 80 in the container to 5000 on the local machine
     env_file:
-      - ./.env.backend               # Path to backend environment variables file
+      - .env.backend               # Path to backend environment variables file
+    working_dir: /app
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80"]  # Check if backend is responsive
