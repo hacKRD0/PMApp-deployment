@@ -30,7 +30,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: ./pmapp/.env.backend
+          source: $GITHUB_WORKSPACE/.env.backend
           target: ~/pmapp/.env.backend
 
       # Step 3: SSH into EC2 and deploy with Docker Compose
