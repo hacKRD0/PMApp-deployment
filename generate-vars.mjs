@@ -12,11 +12,11 @@ if (myArgs.length < 1) {
 // Decode the environment variables from base64
 const buf = Buffer.from(myArgs[0], 'base64');
 
-// Define the output file path
-const outputFilePath = path.join(process.env.HOME, '.env.backend');
+// Define the output file path in the GitHub Actions runner workspace
+const outputFilePath = path.join(process.env.GITHUB_WORKSPACE, 'pmapp', '.env.backend');
 
 try {
-  // Write decoded data to the .env.backend file in ~/pmapp
+  // Ensure pmapp directory exists
   writeFileSync(outputFilePath, buf.toString());
   console.log(`Successfully wrote .env.backend to ${outputFilePath}`);
 } catch (error) {
