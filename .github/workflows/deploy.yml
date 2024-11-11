@@ -21,7 +21,7 @@ jobs:
 
       # Step 1: Generate .env.backend file using generate-vars.js
       - name: Generate .env.backend file
-        run: node ./generate-vars.js "${{ secrets.ENV_VARIABLES_BACKEND }}"  # This script should create ./pmapp/.env.backend
+        run: node ../generate-vars.js "${{ secrets.ENV_VARIABLES_BACKEND }}"  # This script should create ./pmapp/.env.backend
 
       # Step 2: Transfer .env.backend to EC2 instance
       - name: Transfer .env.backend to EC2
