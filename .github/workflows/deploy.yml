@@ -84,7 +84,7 @@ jobs:
             cat "$DOCKER_PASSWORD" "$DOCKER_USERNAME" "$ENV_VARIABLES_BACKEND"
             # Generate .env.backend using generate-vars.mjs on EC2
             cd ~/pmapp
-            node generate-vars.mjs "$ENV_VARIABLES_BACKEND"
+            # node generate-vars.mjs "$ENV_VARIABLES_BACKEND"
 
             # Log in to Docker
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin

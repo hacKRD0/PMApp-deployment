@@ -1,8 +1,8 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   frontend:
-    image: krajavar/pmapp-frontend
+    image: krajavar/pmapp-frontend:latest
     ports:
       - "3000:80"                     # Maps port 80 in the container to 3000 on the local machine
     depends_on:
@@ -14,15 +14,15 @@ services:
     #   - .env.frontend              # Path to frontend environment variables file
 
   backend:
-    image: krajavar/pmapp-backend
+    image: krajavar/pmapp-backend:latest
     ports:
-      - "80:80"                       # Maps port 80 in the container to 5000 on the local machine
+      - "5000:5000"                       # Maps port 80 in the container to 5000 on the local machine
     env_file:
       - .env.backend               # Path to backend environment variables file
     working_dir: /app
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]  # Check if backend is responsive
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]  # Check if backend is responsive
       interval: 30s
       timeout: 10s
       retries: 3
