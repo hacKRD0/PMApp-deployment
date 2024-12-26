@@ -81,15 +81,17 @@ jobs:
               nvm install 20
             fi
 
-            # Check if Docker credentials and environment variables are set
-            cat "$DOCKER_PASSWORD" "$DOCKER_USERNAME" "$ENV_VARIABLES_BACKEND"
+            # Print environment variables (masked for security)
+            echo "DOCKER_USERNAME is set: ${DOCKER_USERNAME:+true}"
+            echo "DOCKER_PASSWORD is set: ${DOCKER_PASSWORD:+true}"
+            echo "ENV_VARIABLES_BACKEND is set: ${ENV_VARIABLES_BACKEND:+true}"
 
             # Log in to Docker
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
             # Run docker-compose to pull latest images and start containers
             cd ~/pmapp
-            mkdir -p uploads          # Make sure uploads directory exists
-            docker-compose down       # Stop existing containers
-            docker-compose pull       # Pull the latest images from Docker Hub
-            docker-compose up -d      # Start containers in detached mode
+            mkdir -p uploads              # Make sure uploads directory exists
+            docker-compose down || true   # Stop existing containers
+            docker-compose pull           # Pull the latest images from Docker Hub
+            docker-compose up -d          # Start containers in detached mode
