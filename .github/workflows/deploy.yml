@@ -13,11 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-
       # # Step 1: Generate .env.backend file using generate-vars.mjs
       # - name: Generate .env.backend file
       #   run: |
@@ -25,15 +20,6 @@ jobs:
       #     node generate-vars.mjs "${{ secrets.ENV_VARIABLES_BACKEND }}"  # This should create ./pmapp/.env.backend
       #     ls -l $GITHUB_WORKSPACE/pmapp/.env.backend  # Verify the file was created
 
-      # # Step 2: Transfer .env.backend to EC2 instance
-      # - name: Transfer .env.backend to EC2
-      #   uses: appleboy/scp-action@v0.1.0
-      #   with:
-      #     host: ${{ secrets.SERVER_HOST }}
-      #     username: ${{ secrets.SERVER_USER }}
-      #     key: ${{ secrets.SERVER_SSH_KEY }}
-      #     source: $GITHUB_WORKSPACE/pmapp/.env.backend
-      #     target: ~/pmapp/.env.backend
       - name: Verify Secrets Presence
         run: |
           if [ -z "${{ secrets.SERVER_SSH_KEY }}" ]; then
@@ -57,6 +43,17 @@ jobs:
             echo "SERVER_USER is set. ${{ secrets.SERVER_USER }}"
           fi
 
+      # # Step 2: Transfer .env.backend to EC2 instance
+      - name: Transfer .env.backend to EC2
+        uses: appleboy/scp-action@v0.1.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: |
+            ./docker-compose.yml
+            ./nginx.conf
+          target: ~/pmapp/
 
       # Step 3: SSH into EC2 and deploy with Docker Compose
       - name: Deploy to EC2 via SSH
