@@ -43,6 +43,10 @@ jobs:
             echo "SERVER_USER is set. ${{ secrets.SERVER_USER }}"
           fi
 
+          echo "Repository root: ${{ github.workspace }}"
+          ls ${{ github.workspace }}
+          ls -R ./
+
       # # Step 2: Transfer .env.backend to EC2 instance
       - name: Transfer .env.backend to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -51,7 +55,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "docker-compose.yml, nginx.conf"
-          target: "home/ec2-user/pmapp/"
+          target: "pmapp/"
           overwrite: true
 
       # Step 3: SSH into EC2 and deploy with Docker Compose
@@ -77,16 +81,15 @@ jobs:
               nvm install 20
             fi
 
+            # Check if Docker credentials and environment variables are set
             cat "$DOCKER_PASSWORD" "$DOCKER_USERNAME" "$ENV_VARIABLES_BACKEND"
-            # Generate .env.backend using generate-vars.mjs on EC2
-            # cd ~/pmapp
-            # node generate-vars.mjs "$ENV_VARIABLES_BACKEND"
 
             # Log in to Docker
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
             # Run docker-compose to pull latest images and start containers
             cd ~/pmapp
+            mkdir -p uploads          # Make sure uploads directory exists
             docker-compose down       # Stop existing containers
             docker-compose pull       # Pull the latest images from Docker Hub
             docker-compose up -d      # Start containers in detached mode
