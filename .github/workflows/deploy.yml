@@ -51,9 +51,9 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: |
-            "./docker-compose.yml"
-            "./nginx.conf"
-          target: ~/pmapp/
+            "docker-compose.yml"
+            "nginx.conf"
+          target: "home/ec2-user/pmapp/"
 
       # Step 3: SSH into EC2 and deploy with Docker Compose
       - name: Deploy to EC2 via SSH
