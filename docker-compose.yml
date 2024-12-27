@@ -33,9 +33,12 @@ services:
     image: nginx:latest
     container_name: nginx
     ports:
-      - "80:80"                  # Expose port 80 externally
+      - "80:80"                  # Expose port 80 
+      - "443:443"                # Expose port 443
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf # Mount the custom Nginx configuration
+      - ./fullchain.pem:/etc/letsencrypt/live/portfolio.rajavaram.com/fullchain.pem       # Mount SSL certificate
+      - ./privkey.pem:/etc/letsencrypt/live/portfolio.rajavaram.com/privkey.pem           # Mount SSL private key
     depends_on:
       frontend:
         condition: service_started
