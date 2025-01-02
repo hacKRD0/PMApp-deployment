@@ -10,8 +10,6 @@ services:
         condition: service_healthy    # Wait until backend passes the healthcheck
     restart: always
     working_dir: /app
-    # env_file:
-    #   - .env.frontend              # Path to frontend environment variables file
 
   backend:
     image: krajavar/pmapp-backend:latest
