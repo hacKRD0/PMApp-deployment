@@ -92,6 +92,7 @@ jobs:
             # Run docker-compose to pull latest images and start containers
             cd ~/pmapp
             mkdir -p uploads              # Make sure uploads directory exists
+            docker system prune -a --volumes -f
             docker-compose down || true   # Stop existing containers
             docker-compose pull           # Pull the latest images from Docker Hub
             docker-compose up -d          # Start containers in detached mode
